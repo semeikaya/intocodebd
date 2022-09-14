@@ -6,8 +6,8 @@ const app = express()
 app.use(express.json())
 
 app.use('/students', require('./routes/students.route'))
-// app.use('/notes', require('./routes/notes.routes'))
-app.use('/groupes', require('./routes/groups.route'))
+app.use('/notes', require('./routes/notes.routes'))
+app.use('/groups', require('./routes/groups.route'))
 
 mongoose.connect(process.env.MONGO_SERVER, (err) => {
     if (err) {

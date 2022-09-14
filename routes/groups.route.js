@@ -3,11 +3,14 @@ const router = Router()
 const { groupController } = require('../controllers/groups.controller')
 
 router.post('/admin', groupController.addGroup)
-// router.delete('/admin/:id', categoryController.deleteCategory)
-// router.patch('/admin/:id', categoryController.updateCategory)
-// router.get('/admin', categoryController.getCategories)
-// router.get('/admin/:id', categoryController.getCategoryById)
-// router.get('/user', categoryController.getCategories)
-// router.get('/user/:id', categoryController.getCategoryById)
+router.get('/admin', groupController.getGroups)
+router.delete('/admin/:id', groupController.deleteGroup)
+router.patch('/admin/:id', groupController.updateGroup)
+router.get('/admin/:id', groupController.getGroupById)
+router.get('/week', groupController.getGroupByWeek)
+router.get('/endstudy/', groupController.getEndGroups)
+
+
+
 
 module.exports = router

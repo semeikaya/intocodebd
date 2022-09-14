@@ -2,11 +2,12 @@ const Group = require('../models/Group.model')
 
 module.exports.groupController = {
     addGroup: async (req, res) => {
-        const { name, week } = req.body
+        const { name, week, endStudy } = req.body
         try {
             await Group.create({
                 name,
-                week
+                week,
+                endStudy
             })
             res.json('Группа добавлена')
         } catch (error) {
@@ -17,16 +18,16 @@ module.exports.groupController = {
     deleteGroup: async (req, res) => {
         try {
             await Group.findByIdAndRemove(req.params.id)
-            res.json('Категория удалена')
+            res.json('Группа удалена')
         } catch (error) {
             res.json(error.message)
         }
     },
 
-    getCategories: async (req, res) => {
+    getGroups: async (req, res) => {
         try {
-            const categories = await Group.find()
-            res.json(categories)
+            const groups = await Group.find().populate('students')
+            res.json(groups)
         } catch (error) {
             res.json(error.message)
         }
@@ -34,8 +35,11 @@ module.exports.groupController = {
 
     updateGroup: async (req, res) => {
         try {
+            const { name, week, endStudy } = req.body
             await Group.findByIdAndUpdate(req.params.id, {
-                name: req.body.name
+                name,
+                week,
+                endStudy
             })
             res.json('Изменения сохранены')
         } catch (error) {
@@ -45,8 +49,34 @@ module.exports.groupController = {
 
     getGroupById: async (req, res) => {
         try {
-            const Group = await Group.findById(req.params.id)
+            const Group = await Group.findById(req.params.id).populate('students')
             res.json(Group)
+        } catch (error) {
+            res.json(error.message)
+        }
+    },
+
+    getGroupByWeek: async (req, res) => {
+        try {
+            const data = await Group.find({week: req.body.week}).populate('students')
+            res.json(data)
+        } catch (error) {
+            res.json(error.message)
+        }
+    },
+
+    getGroupByWeek: async (req, res) => {
+        try {
+            const data = await Group.find({week: req.body.week}).populate('students')
+            res.json(data)
+        } catch (error) {
+            res.json(error.message)
+        }
+    },
+    getEndGroups: async (req, res) => {
+        try {
+            const data = await Group.find({endStudy: true}).populate('students')
+            res.json(data)
         } catch (error) {
             res.json(error.message)
         }
